@@ -14,12 +14,22 @@ Version: October 26th, 2016.
 
 public class CCaux_Grabber : MonoBehaviour
 {
-    public Wand wand;
 
+    [Header("Grab Settings")]
+    [Tooltip("Enable Grabbing")]
+    public bool enableGrabbing;
+    [Tooltip("The button you wish to grab with.")]
+    public WandButton grabButton;
+    [Tooltip("Enable this if you wish to grab with the trigger. This overrides the button selection above.")]
+    public bool grabWithTrigger;
+
+    private Wand wand;
+    private bool grab;
     private GameObject currentObject = null;
     private GameObject grabbedObject = null;
     private Transform grabbedObjectParent = null;
     private bool wasKinematic = false;
+
 
     void Start()
     {
@@ -29,8 +39,25 @@ public class CCaux_Grabber : MonoBehaviour
 
     void Update()
     {
+        //Set grab setting
+        grab = false;
+        if (enableGrabbing)
+        {
+            if (grabWithTrigger)
+            {
+                if (CC_INPUT.GetAxis(wand, WandAxis.Trigger) > 0.0f)
+                    grab = true;
+                else
+                    grab = false;
+            }
+            else
+            {
+                grab = CC_INPUT.GetButtonPress(wand, grabButton);
+            }
+        }
+        
 
-        if (CC_INPUT.GetButtonPress(wand, WandButton.Down))
+        if (grab)
         {
             if (grabbedObject == null)
             {

@@ -2376,7 +2376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2faa0be898dae04a8894344306c7152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wand: 0
+  enableGrabbing: 1
+  grabButton: 5
+  grabWithTrigger: 0
 --- !u!135 &687250582
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2388,8 +2390,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .200000003
-  m_Center: {x: 0, y: 0, z: .100000001}
+  m_Radius: .075000003
+  m_Center: {x: 0, y: 0, z: .119999997}
 --- !u!114 &687250583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6500,7 +6502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2faa0be898dae04a8894344306c7152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wand: 0
+  enableGrabbing: 1
+  grabButton: 5
+  grabWithTrigger: 0
 --- !u!135 &2125314617
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6512,8 +6516,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .200000003
-  m_Center: {x: 0, y: 0, z: .100000001}
+  m_Radius: .075000003
+  m_Center: {x: 0, y: 0, z: .119999997}
 --- !u!114 &2125314618
 MonoBehaviour:
   m_ObjectHideFlags: 0

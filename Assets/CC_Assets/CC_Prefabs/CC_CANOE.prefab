@@ -3936,7 +3936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2faa0be898dae04a8894344306c7152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wand: 0
+  enableGrabbing: 0
+  grabButton: 0
+  grabWithTrigger: 0
 --- !u!114 &11405866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4026,7 +4028,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2faa0be898dae04a8894344306c7152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wand: 0
+  enableGrabbing: 0
+  grabButton: 0
+  grabWithTrigger: 0
 --- !u!114 &11448066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4165,8 +4169,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .200000003
-  m_Center: {x: 0, y: 0, z: .100000001}
+  m_Radius: .075000003
+  m_Center: {x: 0, y: 0, z: .119999997}
 --- !u!135 &13569476
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -4177,8 +4181,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .200000003
-  m_Center: {x: 0, y: 0, z: .100000001}
+  m_Radius: .075000003
+  m_Center: {x: 0, y: 0, z: .119999997}
 --- !u!143 &14357782
 CharacterController:
   m_ObjectHideFlags: 1
@@ -4202,7 +4206,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Radius
+      value: .075000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.z
+      value: .119999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wand
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136310}
