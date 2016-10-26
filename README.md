@@ -1,3 +1,10 @@
+# Unity CyberCANOE Software Development Library 
+
+Jason Leigh, Ryan Theriot  
+October 26th, 2016  
+Laboratory for Advanced Visualizations and Applications at the University of Hawaii at Manoa  
+
+##About
 The **Unity CyberCANOE Package** allows you to set up Unity projects for the Innovator-class and Destiny-class CyberCANOE in the Laboratory for Advanced Visualizations and Applications at the University of Hawaii at Manoa. The Innovator-class CyberCANOE includes a flat tiled display wall with a stereoscopic resolution of 4080x1152, a 6-degree of freedom tracking system, and a surround sound speaker system.  
 
 <img src="https://github.com/uhmlavalab/CyberCANOE/wiki/images/innovator.png"/>
@@ -7,3 +14,9 @@ The Destiny-class CyberCANOE provides a stereoscopic resolution of 17280x7680, 1
 <img src="https://github.com/uhmlavalab/CyberCANOE/wiki/images/destiny.png"/>
 
 ### _It is recommended that you use **Unity 5.1.2**. You can find this version_ [_here_](https://unity3d.com/get-unity/download/archive).
+
+## Resources
+
+* [CyberCANOE Wiki](https://github.com/rctheriot/CyberCANOE/wiki)
+* [LAVA Homepage](http://lava.manoa.hawaii.edu/)  
+* [Unity Documentation](https://docs.unity3d.com/Manual/index.html)  
