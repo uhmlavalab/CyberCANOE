@@ -90,7 +90,7 @@ public static class CC_INPUT
 
         KeyCode simKey = getSimKey(button);
 
-        if (Input.GetKey(simKey) && CC_CANOE.simActiveWand == wand)
+        if (Input.GetKeyDown(simKey) && CC_CANOE.simActiveWand == wand)
         {
             return true;
         }
@@ -120,7 +120,7 @@ public static class CC_INPUT
 
         KeyCode simKey = getSimKey(button);
 
-        if (Input.GetKey(simKey) && CC_CANOE.simActiveWand == wand)
+        if (Input.GetKeyUp(simKey) && CC_CANOE.simActiveWand == wand)
         {
             return true;
         }
