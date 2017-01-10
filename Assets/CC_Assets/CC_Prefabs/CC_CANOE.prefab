@@ -400,7 +400,7 @@ GameObject:
   - 4: {fileID: 480590}
   - 114: {fileID: 11485594}
   - 114: {fileID: 11471794}
-  - 114: {fileID: 11448440}
+  - 114: {fileID: 11490858}
   - 143: {fileID: 14357782}
   m_Layer: 0
   m_Name: CC_CANOE
@@ -4042,19 +4042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb43003a4c4e4846b13bf65efed8a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11448440
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 136310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d75ef26c221ecc04cbb7d9fe488facc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  lookSpeed: 50
 --- !u!114 &11460464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4117,6 +4104,32 @@ MonoBehaviour:
   simulatorActiveWand: 0
   showScreen: 0
   applyGravity: 0
+--- !u!114 &11490858
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de10e0a20391229438a02c022a532d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableNavigation: 1
+  disableNavigationX: 0
+  disableNavigationY: 0
+  disableNavigationZ: 0
+  lockRotation: 0
+  wandToUse: 0
+  navButton: 0
+  navWithTrigger: 0
+  moveSpeed: 5
+  rotateSpeed: 1
+  resetButton: 0
+  resetSpeed: .5
+  resetPosition: {x: 0, y: 0, z: 0}
+  resetRotation: {x: 0, y: 0, z: 0}
+  cursor: {fileID: 0}
 --- !u!124 &12405824
 Behaviour:
   m_ObjectHideFlags: 1
@@ -4226,6 +4239,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
       value: -.258819282
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rotateSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
