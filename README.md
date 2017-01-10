@@ -1,7 +1,7 @@
 # Unity CyberCANOE Software Development Library 
 
 Jason Leigh, Ryan Theriot  
-October 26th, 2016  
+January 9th, 2017  
 Laboratory for Advanced Visualizations and Applications at the University of Hawaii at Manoa  
 
 ##About
@@ -13,7 +13,7 @@ The Destiny-class CyberCANOE provides a stereoscopic resolution of 17280x7680, 1
 
 <img src="https://github.com/uhmlavalab/CyberCANOE/wiki/images/destiny.png"/>
 
-### _It is recommended that you use **Unity 5.1.2**. You can find this version_ [_here_](https://unity3d.com/get-unity/download/archive).
+### _It is recommended that you use **Unity 5.1.2**. You can find this version_ [_here_](http://beta.unity3d.com/download/62e08e29dcf3/public_download.html).
 
 ## Resources
 
