@@ -6,7 +6,7 @@ Updates the wand position and rotation by interfacing with CC_TRACKER.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
  */
 
 /// <summary> Keeps track of wand position and rotation. </summary>

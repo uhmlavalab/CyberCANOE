@@ -5,7 +5,7 @@ The input class for interfacing with the CyberCANOE Wands.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
  */
 
 /// <summary>
@@ -61,7 +61,7 @@ public static class CC_INPUT
 
         KeyCode simKey = getSimKey(button);
 
-        if (Input.GetKey(simKey) && CC_CANOE.simActiveWand == wand)
+        if (Input.GetKey(simKey) && CC_CANOE.simActiveWand == wand && CC_CANOE.keyboardControls)
         {
             return true;
         }
@@ -90,7 +90,7 @@ public static class CC_INPUT
 
         KeyCode simKey = getSimKey(button);
 
-        if (Input.GetKeyDown(simKey) && CC_CANOE.simActiveWand == wand)
+        if (Input.GetKeyDown(simKey) && CC_CANOE.simActiveWand == wand && CC_CANOE.keyboardControls)
         {
             return true;
         }
@@ -120,7 +120,7 @@ public static class CC_INPUT
 
         KeyCode simKey = getSimKey(button);
 
-        if (Input.GetKeyUp(simKey) && CC_CANOE.simActiveWand == wand)
+        if (Input.GetKeyUp(simKey) && CC_CANOE.simActiveWand == wand && CC_CANOE.keyboardControls)
         {
             return true;
         }
@@ -150,9 +150,9 @@ public static class CC_INPUT
         KeyCode simAxis1 = getSimAxis1(axis);
         KeyCode simAxis2 = getSimAxis2(axis);
 
-        if (CC_CANOE.simActiveWand == wand && (Input.GetKey(simAxis1) || Input.GetKey(simAxis2)))
+        if (CC_CANOE.simActiveWand == wand && (Input.GetKey(simAxis1) || Input.GetKey(simAxis2)) && CC_CANOE.keyboardControls)
         {
-            if (Input.GetKey(simAxis1))
+            if (Input.GetKey(simAxis1) && CC_CANOE.keyboardControls)
                 return 1.0f;
             else
                 return -1.0f;

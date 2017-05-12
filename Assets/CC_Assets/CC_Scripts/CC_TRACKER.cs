@@ -5,7 +5,7 @@ Keeps track of the head and wand positions and rotations by interfacing over VRP
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
  */
 
 /// <summary> Retrives information of the head and wand positions and rotations by interfacing with MotiveDirect. </summary>
@@ -66,7 +66,7 @@ public class CC_TRACKER : MonoBehaviour
             headSimulation(mouseX, mouseY);
 
             //Reset simulator positions
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Return) && CC_CANOE.keyboardControls)
             {
                 setDefaultPositions();
             }
@@ -95,14 +95,14 @@ public class CC_TRACKER : MonoBehaviour
         float same;
 
         //Turn head.
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q) && CC_CANOE.keyboardControls)
         {
             headRotation = Quaternion.AngleAxis(mouseX * headSpan - (headSpan / 2), Vector3.up) * Quaternion.AngleAxis(-(mouseY * headSpan / 2 - (headSpan / 4)), Vector3.right);
 
         }
 
         //Move the head left/right and forward/backward.
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.Z) && CC_CANOE.keyboardControls)
         {
             same = headPosition.z;
             headPosition = new Vector3(mouseX * headXSpan - (headXSpan / 2), mouseY * headYSpan / 2 + shoulderHeight, same);
@@ -112,7 +112,7 @@ public class CC_TRACKER : MonoBehaviour
         }
 
         //Move the head left/right and up/down.
-        if (Input.GetKey(KeyCode.C))
+        if (Input.GetKey(KeyCode.C) && CC_CANOE.keyboardControls)
         {
             same = headPosition.y;
             headPosition = new Vector3(mouseX * headXSpan - (headXSpan / 2), same, mouseY * headZSpan / 2);
@@ -122,7 +122,7 @@ public class CC_TRACKER : MonoBehaviour
         }
 
         //Roll the head
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && CC_CANOE.keyboardControls)
         {
             if (twistHeadStarted == 0)
             {
@@ -146,19 +146,19 @@ public class CC_TRACKER : MonoBehaviour
     private void wandSimulation(float mouseX, float mouseY)
     {
         //Move wand left/right and up/down.
-        if (Input.GetKey(KeyCode.N))
+        if (Input.GetKey(KeyCode.N) && CC_CANOE.keyboardControls)
         {
             wandPosition[(int)CC_CANOE.simActiveWand] = new Vector3(mouseX * wandXSpan - (wandXSpan / 2), mouseY * wandYSpan - (wandYSpan / 2) + shoulderHeight, armDistanceInFront);
         }
 
         //Move wand left/right and forward/backward.
-        if (Input.GetKey(KeyCode.Comma))
+        if (Input.GetKey(KeyCode.Comma) && CC_CANOE.keyboardControls)
         {
             wandPosition[(int)CC_CANOE.simActiveWand] = new Vector3(mouseX * wandXSpan - (wandXSpan / 2), shoulderHeight, mouseY * wandZSpan);
         }
 
         //Yaw/pitch wand.
-        if (Input.GetKey(KeyCode.Y))
+        if (Input.GetKey(KeyCode.Y) && CC_CANOE.keyboardControls)
         {
             if (rotateStarted == 0)
             {
@@ -177,7 +177,7 @@ public class CC_TRACKER : MonoBehaviour
         }
 
         //Roll Wand.
-        if (Input.GetKey(KeyCode.I))
+        if (Input.GetKey(KeyCode.I) && CC_CANOE.keyboardControls)
         {
             if (twistStarted == 0)
             {

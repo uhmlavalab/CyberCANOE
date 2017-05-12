@@ -3,21 +3,24 @@ using System.Collections;
 
 /* 
 This is an example script that allows the user to move around the scene.
-All the controls are based off the orientation of the Left Wand.
-You point the left wand in the direction you want to move.
+Forward movement is based off the orientation of the Right Wand.
+You point the right wand in the direction you want to move and pull the trigger.
 
-Left Wand Joystick - Forward/Backward and Yaw 
-Right Wand Joystick - Pitch and Roll
+Right Wand Joystick - Pitch and yaw
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
 */
 
 public class CCaux_Navigator : MonoBehaviour
 {
     public float moveSpeed = 5.0f;
     public float lookSpeed = 50.0f;
+    public float maxPitch = 20.0f;
+    private float xAxisChange = 0.0f;
+    [HideInInspector]
+    public float yAxisChange = 0.0F;
 
     private CharacterController charCont;
 
@@ -29,27 +32,32 @@ public class CCaux_Navigator : MonoBehaviour
 
     void Update()
     {
-        //Directions obtained from CC_CANOE class. We use the Left wand for orientation.
-        //Where the left wand is pointed where the player will move and rotate around
-        Vector3 forwardDir = CC_CANOE.WandGameObject(Wand.Left).transform.forward;
-        Vector3 rightDir = CC_CANOE.WandGameObject(Wand.Left).transform.right;
-        Vector3 upDir = CC_CANOE.WandGameObject(Wand.Left).transform.up;
+        //Directions obtained from CC_CANOE class. We use the Right wand and Head for orientation.
+        //Where the right wand is pointed is the direction the player will move
+        Vector3 forwardDir = CC_CANOE.WandGameObject(Wand.Right).transform.forward;
+        Vector3 rightDir = CC_CANOE.HeadGameObject().transform.right;
+        rightDir = Vector3.Normalize(Vector3.ProjectOnPlane(rightDir, Vector3.up));
+        Vector3 upDir = Vector3.up;
 
         //The input from the trigger axis of the left wand
-        float forward = CC_INPUT.GetAxis(Wand.Left, WandAxis.YAxis);
+        float forward = CC_INPUT.GetAxis(Wand.Right, WandAxis.Trigger);
 
         //Move the CharacterController attached to the CC_CANOE. 
         Vector3 movement = forwardDir * forward;
         charCont.Move(movement * Time.deltaTime * moveSpeed);
 
         //The input from the X and Y axis of the right wand joystick.
-        float yaw = CC_INPUT.GetAxis(Wand.Left, WandAxis.XAxis) * Time.deltaTime * lookSpeed;
-        float pitch = CC_INPUT.GetAxis(Wand.Right, WandAxis.YAxis) * Time.deltaTime * lookSpeed;
-        float roll = CC_INPUT.GetAxis(Wand.Right, WandAxis.XAxis) * Time.deltaTime * lookSpeed;
+        yAxisChange += CC_INPUT.GetAxis(Wand.Right, WandAxis.XAxis) * Time.deltaTime * lookSpeed;
+        yAxisChange = yAxisChange % 360.0f;
+        xAxisChange += CC_INPUT.GetAxis(Wand.Right, WandAxis.YAxis) * Time.deltaTime * lookSpeed;
+        xAxisChange = Mathf.Clamp(xAxisChange, -maxPitch, maxPitch);
 
         //Change the direction the CharacterController is facing.
-        charCont.transform.RotateAround(charCont.transform.position, rightDir, pitch);
-        charCont.transform.RotateAround(charCont.transform.position, upDir, yaw);
-        charCont.transform.RotateAround(charCont.transform.position, forwardDir, -roll);
+        charCont.transform.rotation = Quaternion.identity;
+        charCont.transform.RotateAround(CC_CANOE.CanoeGameObject().transform.position, Vector3.up, yAxisChange);
+        charCont.transform.RotateAround(CC_CANOE.CanoeGameObject().transform.position, rightDir, xAxisChange);
+       
+   
     }
+
 }

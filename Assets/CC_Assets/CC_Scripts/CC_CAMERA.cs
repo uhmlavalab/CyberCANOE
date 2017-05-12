@@ -7,7 +7,7 @@ Manages the cameras of the CyberCANOE.
  
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
 */
 
 /// <summary> Manages all the cameras for Destiny, Innovator and the Simulator. </summary>
@@ -47,9 +47,10 @@ public class CC_CAMERA : MonoBehaviour
     private string guiDisplay;
     private GUIStyle style;
 
+    private bool keyboardControls;
+
     void Start()
     {
-
         //Load Settings
         if (CC_CONFIG.configLoaded())
         {
@@ -121,15 +122,16 @@ public class CC_CAMERA : MonoBehaviour
         }
         changeCameras();
 
+
     }
 
     void Update()
     {
         //Change cameras
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        if (Input.GetKeyDown(KeyCode.Alpha0) && CC_CANOE.keyboardControls)
         {
             selectCamera++;
-            if ((int)selectCamera == 3)
+            if ((int)selectCamera >= 3)
             {
                 selectCamera = 0;
             }
@@ -140,11 +142,11 @@ public class CC_CAMERA : MonoBehaviour
         }
 
         //Change interaxial
-        if (Input.GetKeyDown(KeyCode.Equals))
+        if (Input.GetKeyDown(KeyCode.Equals) && CC_CANOE.keyboardControls)
         {
             interaxial++;
         }
-        if (Input.GetKeyDown(KeyCode.Minus))
+        if (Input.GetKeyDown(KeyCode.Minus) && CC_CANOE.keyboardControls)
         {
             interaxial--;
         }
@@ -154,7 +156,7 @@ public class CC_CAMERA : MonoBehaviour
         }
 
         //Enable/disable stereoscopic.
-        if (Input.GetKeyDown(KeyCode.Alpha9))
+        if (Input.GetKeyDown(KeyCode.Alpha9) && CC_CANOE.keyboardControls)
         {
             enableStereo = !enableStereo;
         }
@@ -164,7 +166,7 @@ public class CC_CAMERA : MonoBehaviour
         }
 
         //Enable/disable Panoptic for Destiny.
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.Alpha8) && CC_CANOE.keyboardControls)
         {
             panOptic = !panOptic;
             guiTimeChange = Time.time;
@@ -178,11 +180,11 @@ public class CC_CAMERA : MonoBehaviour
         }
 
         //Change the Destiny Camera Index
-        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        if (Input.GetKeyDown(KeyCode.LeftBracket) && CC_CANOE.keyboardControls)
         {
             destinyCameraIndex++;
         }
-        if (Input.GetKeyDown(KeyCode.RightBracket))
+        if (Input.GetKeyDown(KeyCode.RightBracket) && CC_CANOE.keyboardControls)
         {
             destinyCameraIndex--;
         }
@@ -199,7 +201,6 @@ public class CC_CAMERA : MonoBehaviour
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-
         if (selectCamera == SelectedCamera.Destiny)
         {
 
@@ -251,6 +252,10 @@ public class CC_CAMERA : MonoBehaviour
             {
                 Graphics.Blit(innovatorCamera.GetComponent<CC_CAMERASTEREO>().getCenterRenderTexture(), destination);
             }
+        }
+        else
+        {
+            Graphics.Blit(source, destination);
         }
     }
 

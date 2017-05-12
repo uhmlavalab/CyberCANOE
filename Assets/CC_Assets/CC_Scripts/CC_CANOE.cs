@@ -6,7 +6,7 @@ Users can also access information about the head and wands by using static metho
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
  */
 
 /// <summary> The main class to interface with to retrieve Wand, Head, and CharacterController information. </summary>
@@ -27,6 +27,8 @@ public class CC_CANOE : MonoBehaviour
     private ShowScreen savedSelScreen;
 
     public bool applyGravity = true;
+    public bool kbcont;
+    public static bool keyboardControls;
 
     private static GameObject CC_CANOEOBJ;
     private static GameObject CC_INNOVATOR_SCREENS;
@@ -35,7 +37,6 @@ public class CC_CANOE : MonoBehaviour
     private static GameObject[] CC_WAND;
     private static GameObject CC_HEAD;
     private static CharacterController charController;
-
 
     //GLOBAL GET METHODS
     /// <summary>
@@ -96,12 +97,13 @@ public class CC_CANOE : MonoBehaviour
         CC_INNOVATOR_SCREENS = transform.FindChild("CC_INNOVATOR_SCREENS").gameObject;
         CC_DESTINY_SCREENS = transform.FindChild("CC_DESTINY_SCREENS").gameObject;
         CC_GUI = transform.FindChild("CC_GUI").gameObject;
+        keyboardControls = kbcont;
 
     }
 
     void Start()
     {
-        
+
         //Set the scale of Destiny's screens to account or not account for bezel. 
         if (CC_CONFIG.isDestiny())
         {
@@ -127,22 +129,9 @@ public class CC_CANOE : MonoBehaviour
     void Update()
     {
         //Wand select
-        if (Input.GetKeyDown(KeyCode.Alpha1)) simulatorActiveWand = Wand.Left;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) simulatorActiveWand = Wand.Right;
+        if (Input.GetKeyDown(KeyCode.Alpha1) && keyboardControls) simulatorActiveWand = Wand.Left;
+        if (Input.GetKeyDown(KeyCode.Alpha2) && keyboardControls) simulatorActiveWand = Wand.Right;
         simActiveWand = simulatorActiveWand;
-
-        //Simulator forward and backward movement
-        float curSpeed = 0.0f;
-        if (Input.GetKey(KeyCode.W)) curSpeed += navigationSpeed;
-        if (Input.GetKey(KeyCode.S)) curSpeed -= navigationSpeed;
-        Vector3 forward = CC_WAND[(int)Wand.Left].transform.TransformDirection(Vector3.forward);
-        charController.Move(forward * curSpeed * Time.deltaTime);
-
-        //Simulator Y-Axis rotation
-        float yaw = 0.0f;
-        if (Input.GetKey(KeyCode.D)) yaw += navigationRotationSpeed;
-        if (Input.GetKey(KeyCode.A)) yaw -= navigationRotationSpeed;
-        transform.Rotate(new Vector3(0, yaw, 0));
 
         //Gravity
         if (applyGravity)
@@ -152,7 +141,7 @@ public class CC_CANOE : MonoBehaviour
         }
 
         // Show and hide the CyberCANOE's screen.
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Alpha6) && keyboardControls)
         {
             showScreen++;
             if ((int)showScreen == 3) showScreen = 0;
@@ -160,7 +149,7 @@ public class CC_CANOE : MonoBehaviour
         if (savedSelScreen != showScreen) changeScreens();
 
         //Change wand models
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha5) && keyboardControls)
         {
             wandModel++;
             if ((int)wandModel == 3) wandModel = 0;
@@ -169,7 +158,7 @@ public class CC_CANOE : MonoBehaviour
         if (wandModel != savedWandModel) changeWandModels();
 
         //Show and hide Simulator Mode help screen.
-        if (Input.GetKeyDown(KeyCode.Slash))
+        if (Input.GetKeyDown(KeyCode.Slash) && keyboardControls)
         {
             CC_GUI.SetActive(!CC_GUI.activeInHierarchy);
         }
@@ -179,6 +168,26 @@ public class CC_CANOE : MonoBehaviour
         {
             Application.Quit();
         }
+
+        keyboardControls = kbcont;
+    }
+
+    void LateUpdate()
+    {
+        //Simulator forward and backward movement
+        float curSpeed = 0.0f;
+        if (Input.GetKey(KeyCode.W) && keyboardControls) curSpeed += navigationSpeed;
+        if (Input.GetKey(KeyCode.S) && keyboardControls) curSpeed -= navigationSpeed;
+        Vector3 forward = CC_WAND[(int)Wand.Left].transform.TransformDirection(Vector3.forward);
+        charController.Move(forward * curSpeed * Time.deltaTime);
+
+        //Simulator Y-Axis rotation
+        float yaw = 0.0f;
+        if (Input.GetKey(KeyCode.D) && keyboardControls) yaw += navigationRotationSpeed;
+        if (Input.GetKey(KeyCode.A) && keyboardControls) yaw -= navigationRotationSpeed;
+        if (GetComponent<CCaux_Navigator>())
+            GetComponent<CCaux_Navigator>().yAxisChange += yaw;
+        transform.Rotate(new Vector3(0, yaw, 0));
 
     }
 
@@ -235,5 +244,33 @@ public class CC_CANOE : MonoBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// Temporary fix for Unity's random not being synced across all nodes
+    /// </summary>
+    /// <returns>Random int between the range of min and max. Inclusive.</returns>
+    public static int RandomRange(int min, int max)
+    {
+        if (min > max)
+            throw new System.ArgumentException("The second argument cannot be less than the first.");
+
+        System.Random rand = new System.Random((int)Time.time);
+        return (int)System.Math.Floor(rand.NextDouble() * (max - min + 1) + min);
+
+    }
+
+    /// <summary>
+    /// Temporary fix for Unity's random not being synced across all nodes
+    /// </summary>
+    /// <returns>Random float between the range of min and max. Exclusive.</returns>
+    public static float RandomRange(float min, float max)
+    {
+        if (min > max)
+            throw new System.ArgumentException("The second argument cannot be less than the first.");
+
+        System.Random rand = new System.Random((int)Time.time);
+        return max - ((System.Math.Abs(max) + System.Math.Abs(min)) * (float)rand.NextDouble());
+    }
+
 
 }

@@ -10,7 +10,7 @@ Must click the "CLICK HERE BEFORE BUIDLING" button on the CC_CANOE GameObject be
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: October 26th, 2016.
+Version: 1.3, May 12th, 2017.
  */
 
 [CustomEditor(typeof(CC_CANOE))]
@@ -24,7 +24,7 @@ public class CC_EDITORCANOE : Editor
     public override void OnInspectorGUI()
     {
         //Get This Target
-        CC_CANOE myTarget = (CC_CANOE)target;
+        CC_CANOE canoeTarget = (CC_CANOE)target;
 
         //Disconnect the CC_CANOE prefab instance from the original prefab
         bool isPrefabOriginal = PrefabUtility.GetPrefabParent(target) == null && PrefabUtility.GetPrefabObject(target) != null;
@@ -33,71 +33,37 @@ public class CC_EDITORCANOE : Editor
 
         //CAMERA STARTS
         GUILayout.Space(10);
-
-        GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Camera Settings", EditorStyles.boldLabel);
-        EditorGUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
         selCamera = (CC_CAMERA.SelectedCamera)EditorGUILayout.EnumPopup(new GUIContent("Selected Camera", "Select which camera to use. Keyboard Shortcut: 'P'"), GameObject.Find("CC_HEAD").GetComponent<CC_CAMERA>().selectCamera);
-        GUILayout.EndHorizontal();
-
         enableStereo = EditorGUILayout.Toggle(new GUIContent("Enable Stereo", "Enable/Disable stereoscopic. Keyboard Shortcut: '9'"), GameObject.Find("CC_HEAD").GetComponent<CC_CAMERA>().enableStereo);
         interaxial = EditorGUILayout.IntField(new GUIContent("Interaxial", "Interaxial distance in millimeters.Keyboard Shortcut: '-' and '+'"), GameObject.Find("CC_HEAD").GetComponent<CC_CAMERA>().interaxial);
-
-        GUILayout.BeginHorizontal();
         destCameraIndex = (int)EditorGUILayout.Slider(new GUIContent("Destiny Camera Index", "Change the view to different cameras of Destiny. Keyboard Shortcut: '[' and ']'"), GameObject.Find("CC_HEAD").GetComponent<CC_CAMERA>().destinyCameraIndex, 0, 7);
-        GUILayout.EndHorizontal();
 
-        GUILayout.Space(10);
         //Camera ENDS
 
-
         //WANDS STARTS
-        GUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Wand Settings", EditorStyles.boldLabel);
-        EditorGUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        myTarget.simulatorActiveWand = (Wand)EditorGUILayout.EnumPopup(new GUIContent("Selected Wand", "The currently active simulator wand."), myTarget.simulatorActiveWand);
-        GUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        myTarget.wandModel = (CC_CANOE.WandModel)EditorGUILayout.EnumPopup(new GUIContent("Wand Model", "The wand model you wish to be visible. Keyboard Shortcut: '5'"), myTarget.wandModel);
-        GUILayout.EndHorizontal();
-
         GUILayout.Space(10);
+        EditorGUILayout.LabelField("Wand Settings", EditorStyles.boldLabel);
+        canoeTarget.simulatorActiveWand = (Wand)EditorGUILayout.EnumPopup(new GUIContent("Selected Wand", "The currently active simulator wand."), canoeTarget.simulatorActiveWand);
+        canoeTarget.wandModel = (CC_CANOE.WandModel)EditorGUILayout.EnumPopup(new GUIContent("Wand Model", "The wand model you wish to be visible. Keyboard Shortcut: '5'"), canoeTarget.wandModel);
         //WAND ENDS
 
-
         //NAV STARTS
-        GUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Simulator Navigation Settings", EditorStyles.boldLabel);
-        EditorGUILayout.EndHorizontal();
-
-        myTarget.navigationSpeed = EditorGUILayout.FloatField(new GUIContent("Movement Speed", "Navigation speed of the simulator controls. (Only affects WASD key movement)"), myTarget.navigationSpeed);
-        myTarget.navigationRotationSpeed = EditorGUILayout.FloatField(new GUIContent("Rotational Speed", "Rotational speed of the simulator controls. (Only affects WASD key movement)"), myTarget.navigationRotationSpeed);
-
         GUILayout.Space(10);
+        EditorGUILayout.LabelField("Simulator Navigation Settings", EditorStyles.boldLabel);
+        canoeTarget.navigationSpeed = EditorGUILayout.FloatField(new GUIContent("Movement Speed", "Navigation speed of the simulator controls. (Only affects WASD key movement)"), canoeTarget.navigationSpeed);
+        canoeTarget.navigationRotationSpeed = EditorGUILayout.FloatField(new GUIContent("Rotational Speed", "Rotational speed of the simulator controls. (Only affects WASD key movement)"), canoeTarget.navigationRotationSpeed);
         //NAV ENDS
 
-
         //MISC STARTS
-        GUILayout.BeginHorizontal();
+        GUILayout.Space(10);
         EditorGUILayout.LabelField("Misc Settings", EditorStyles.boldLabel);
-        EditorGUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        myTarget.showScreen = (CC_CANOE.ShowScreen)EditorGUILayout.EnumPopup(new GUIContent("Show Screen", "Enable/Disable the visibility of the CyberCANOE's Screens. Typically you want this set to none unless you are debugging in the editor. Keyboard Shortcut: '6'"), myTarget.showScreen);
-        GUILayout.EndHorizontal();
-
-        myTarget.applyGravity = EditorGUILayout.Toggle(new GUIContent("Apply Gravity", "Enable or disable gravity the Canoe/Player experiences. Does not affect other objects in the scene."), myTarget.applyGravity);
-
-        GUILayout.Space(20);
+        canoeTarget.showScreen = (CC_CANOE.ShowScreen)EditorGUILayout.EnumPopup(new GUIContent("Show Screen", "Enable/Disable the visibility of the CyberCANOE's Screens. Typically you want this set to none unless you are debugging in the editor. Keyboard Shortcut: '6'"), canoeTarget.showScreen);
+        canoeTarget.applyGravity = EditorGUILayout.Toggle(new GUIContent("Apply Gravity", "Enable or disable gravity the Canoe/Player experiences. Does not affect other objects in the scene."), canoeTarget.applyGravity);
+        canoeTarget.kbcont = EditorGUILayout.Toggle(new GUIContent("Keyboard Controls", "Enable or disable the keyboard controls. This affects the simualtor, camera, and canoe controls."), canoeTarget.kbcont);
         //MISC ENDS
 
-
-        GUILayout.BeginHorizontal();
+        GUILayout.Space(20);
         GUIStyle style = new GUIStyle(GUI.skin.button);
         style.fontSize = 12;
         style.fontStyle = FontStyle.Bold;
@@ -105,8 +71,6 @@ public class CC_EDITORCANOE : Editor
         {
             BeforeBuild();
         }
-        GUILayout.EndHorizontal();
-
 
         if (GUI.changed)
         {
