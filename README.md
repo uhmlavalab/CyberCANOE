@@ -13,7 +13,7 @@ The Destiny-class CyberCANOE provides a stereoscopic resolution of 17280x7680, 1
 
 <img src="https://github.com/uhmlavalab/CyberCANOE/wiki/images/destiny.png"/>
 
-### Version 1.3 requires [**Unity 5.6**](https://unity3d.com/).
+### Version 1.13 requires [**Unity 5.6**](https://unity3d.com/).
 
 ## Resources
 

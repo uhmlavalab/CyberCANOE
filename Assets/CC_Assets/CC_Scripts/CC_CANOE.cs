@@ -3,10 +3,9 @@
 /* 
 The main class the user interfaces with to set settings of the CC_CANOE.
 Users can also access information about the head and wands by using static methods within this class.
-
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: 1.3, May 12th, 2017.
+Version: 1.13, May 17th, 2017.
  */
 
 /// <summary> The main class to interface with to retrieve Wand, Head, and CharacterController information. </summary>
@@ -116,7 +115,7 @@ public class CC_CANOE : MonoBehaviour
         {
             foreach (Transform child in CC_DESTINY_SCREENS.transform)
             {
-                child.localScale = new Vector3(0.701675f, 1.2255f, 1.0f);
+               child.localScale = new Vector3(0.701675f, 1.2255f, 1.0f);
             }
         }
 
