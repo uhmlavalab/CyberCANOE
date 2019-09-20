@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /* 
 The code is based on the Robert Kooima's publication "Generalized Perspective Projection," 2009. http://csc.lsu.edu/~kooima/pdfs/gen-perspective.pdf 
@@ -8,25 +7,21 @@ Obtained from https://en.wikibooks.org/wiki/Cg_Programming/Unity/Projection_for_
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: 1.13, May 17th, 2017.
+Version: 1.14, August 6th, 2019.
  */
 
 /// <summary> Offaxis camera projection. </summary>
 [ExecuteInEditMode]
-public class CC_CAMERAOFFSET : MonoBehaviour
-{
+public class CC_CAMERAOFFSET : MonoBehaviour {
     public GameObject projectionScreen;
     private Camera cameraComponent;
 
-    void Start()
-    {
+    void Start() {
         cameraComponent = GetComponent<Camera>();
     }
 
-    void LateUpdate()
-    {
-        if (null != projectionScreen && null != cameraComponent)
-        {
+    void LateUpdate() {
+        if (null != projectionScreen && null != cameraComponent) {
             //Lower left corner of projection screen in world coordinates.
             Vector3 PSLL = projectionScreen.transform.TransformPoint(new Vector3(-0.5f, -0.5f, 0.0f));
             //Lower right corner of projection screen in world coordinates.
@@ -135,20 +130,21 @@ public class CC_CAMERAOFFSET : MonoBehaviour
             //Set matrices.
             cameraComponent.projectionMatrix = p;
             cameraComponent.worldToCameraMatrix = rm * tm;
-
         }
     }
 
-    public GameObject getProjectionScreen()
-    {
+    /// <summary>
+    /// Returns the GameObject representing the projection screen.
+    /// </summary>
+    public GameObject GetProjectionScreen() {
         return projectionScreen;
     }
 
-    public void setProjectionScreen(GameObject projectionScreen)
-    {
+    /// <summary>
+    /// Sets the GameObject representing the projection screen.
+    /// </summary>
+    /// <param name="projectionScreen">GameObject to become the projection screen.</param>
+    public void SetProjectionScreen(GameObject projectionScreen) {
         this.projectionScreen = projectionScreen;
     }
-
-
 }
-

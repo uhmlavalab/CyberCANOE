@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /* 
 This is an example script that allows the user to grab objects.
@@ -9,19 +8,17 @@ Down Button - Grab object
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: 1.13, May 17th, 2017.
+Version: 1.14, August 6th, 2019.
  */
 
-public class CCaux_Grabber : MonoBehaviour
-{
+public class CCaux_Grabber : MonoBehaviour {
 
-    [Header("Grab Settings")]
-    [Tooltip("Enable Grabbing")]
     public bool enableGrabbing;
-    [Tooltip("The button you wish to grab with.")]
     public WandButton grabButton;
-    [Tooltip("Enable this if you wish to grab with the trigger. This overrides the button selection above.")]
     public bool grabWithTrigger;
+
+    [HideInInspector]
+    public string wandName = "";
 
     private Wand wand;
     private bool grab;
@@ -31,47 +28,38 @@ public class CCaux_Grabber : MonoBehaviour
     private bool wasKinematic = false;
 
 
-    void Start()
-    {
+    void Start() {
         //Get the wand component attached to this GameObject
         wand = GetComponent<CC_WAND>().wand;
+
+        wandName = gameObject.name;
     }
 
-    void Update()
-    {
+    void Update() {
         //Set grab setting
         grab = false;
-        if (enableGrabbing)
-        {
-            if (grabWithTrigger)
-            {
+        if (enableGrabbing) {
+            if (grabWithTrigger) {
                 if (CC_INPUT.GetAxis(wand, WandAxis.Trigger) > 0.0f)
                     grab = true;
                 else
                     grab = false;
-            }
-            else
-            {
+            } else {
                 grab = CC_INPUT.GetButtonPress(wand, grabButton);
             }
         }
-        
 
-        if (grab)
-        {
-            if (grabbedObject == null)
-            {
+        if (grab) {
+            if (grabbedObject == null) {
 
-                if (currentObject != null)
-                {
+                if (currentObject != null) {
                     grabbedObject = currentObject;
 
                     // If object had a rigidbody, grabbed save the rigidbody's kinematic state
                     // so it can be restored on release of the object
                     Rigidbody body = null;
                     body = grabbedObject.GetComponent<Rigidbody>();
-                    if (body != null)
-                    {
+                    if (body != null) {
                         wasKinematic = body.isKinematic;
                         body.isKinematic = true;
                     }
@@ -89,12 +77,9 @@ public class CCaux_Grabber : MonoBehaviour
 
                 }
             }
-        }
-        else
-        {
+        } else {
 
-            if (grabbedObject != null)
-            {
+            if (grabbedObject != null) {
 
                 // Restore the original parentage of the grabbed object
                 grabbedObject.transform.parent = grabbedObjectParent;
@@ -102,8 +87,7 @@ public class CCaux_Grabber : MonoBehaviour
                 // If object had a rigidbody, restore its kinematic state
                 Rigidbody body = null;
                 body = grabbedObject.GetComponent<Rigidbody>();
-                if (body != null)
-                {
+                if (body != null) {
                     body.isKinematic = wasKinematic;
                 }
 
@@ -113,19 +97,15 @@ public class CCaux_Grabber : MonoBehaviour
                 grabbedObject = null;
                 currentObject = null;
             }
-
         }
-
     }
 
-    void OnTriggerEnter(Collider collision)
-    {
+    void OnTriggerEnter(Collider collision) {
         if (grabbedObject == null)
             currentObject = collision.gameObject;
     }
 
-    void OnTriggerExit(Collider collision)
-    {
+    void OnTriggerExit(Collider collision) {
         currentObject = null;
     }
 }

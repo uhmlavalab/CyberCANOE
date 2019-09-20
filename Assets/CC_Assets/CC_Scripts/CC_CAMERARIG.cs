@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 /* 
 Each part of the cluster renderer has it's own  serialized camera rig.
@@ -7,94 +6,96 @@ Each camera rig is composed of four cameras one for each screen.
 
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: 1.13, May 17th, 2017.
+Version: 1.14, August 6th, 2019.
  */
 
 /// <summary> Destiny's camera rig for each cluster. </summary>
 [System.Serializable]
-public class CC_CAMERARIG
-{
+public class CC_CAMERARIG {
     public GameObject Screens;
 
-    public void updateCameraPerspective(Camera[] cameras, int cameraIndex, bool panOptic)
-    {
+    /// <summary>
+    /// Updates the camera perspective for one group of screens.
+    /// </summary>
+    /// <param name="cameras">Array of cameras.</param>
+    /// <param name="cameraIndex">Index of the camera to update.</param>
+    /// <param name="panOptic">True for panoptic view mode.</param>
+    public void UpdateCameraPerspective(Camera[] cameras, int cameraIndex, bool panOptic) {
         //Get this camera rig's projection screens
         GameObject[] projScreens = new GameObject[4];
+        if (cameraIndex == 8) cameraIndex = 0;
         projScreens[0] = Screens.transform.GetChild(cameraIndex * 4).gameObject;
         projScreens[1] = Screens.transform.GetChild(cameraIndex * 4 + 1).gameObject;
         projScreens[2] = Screens.transform.GetChild(cameraIndex * 4 + 2).gameObject;
         projScreens[3] = Screens.transform.GetChild(cameraIndex * 4 + 3).gameObject;
 
         //Set each camera's rotation depending on PanOptic setting
-        if (panOptic)
-        {
-            for (int i = 0; i < 4; i++)
-            {
+        if (panOptic) {
+            for (int i = 0; i < 4; i++) {
                 cameras[i].transform.LookAt(projScreens[i].transform, CC_CANOE.CanoeGameObject().transform.up);
             }
-        }
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
+        } else {
+            for (int i = 0; i < 4; i++) {
                 cameras[i].transform.localEulerAngles = Vector3.zero;
             }
         }
 
         //Set each camera's projection
-        for (int i = 0; i < 4; i++)
-        {
-            PerspectiveOffCenter(cameras[i], projScreens[i]);
-            PerspectiveOffCenter(cameras[i].transform.GetChild(0).GetComponent<Camera>(), projScreens[i]);
-            PerspectiveOffCenter(cameras[i].transform.GetChild(1).GetComponent<Camera>(), projScreens[i]);
+        for (int i = 0; i < 4; i++) {
+            perspectiveOffCenter(cameras[i], projScreens[i]);
+            perspectiveOffCenter(cameras[i].transform.GetChild(0).GetComponent<Camera>(), projScreens[i]);
+            perspectiveOffCenter(cameras[i].transform.GetChild(1).GetComponent<Camera>(), projScreens[i]);
         }
-
     }
 
     //Updates each camera's interaxial setting.
-    public void updateCameraInteraxials(Camera[] cameras, float interaxial)
-    {
+    /// <summary>
+    /// Updates each camera's interaxial setting.
+    /// </summary>
+    /// <param name="cameras">Array of cameras.</param>
+    /// <param name="interaxial">Incoming interaxial value.</param>
+    public void UpdateCameraInteraxials(Camera[] cameras, float interaxial) {
         GameObject head = GameObject.Find("CC_HEAD");
 
-        foreach (Camera camera in cameras)
-        {
-            camera.GetComponent<CC_CAMERASTEREO>().updateInteraxial(head, interaxial);
+        foreach (Camera camera in cameras) {
+            camera.GetComponent<CC_CAMERASTEREO>().UpdateInteraxial(head, interaxial);
         }
-
     }
 
-    //Updates each camera when aspect ratio changes.
-    public void updateCameraScreenAspect(Camera[] cameras)
-    {
-        foreach (Camera camera in cameras)
-        {
-            camera.GetComponent<CC_CAMERASTEREO>().updateScreenAspect(true);
-        }
 
+    /// <summary>
+    /// Updates each camera when aspect ratio changes.
+    /// </summary>
+    /// <param name="cameras">Array of cameras.</param>
+    public void UpdateCameraScreenAspect(Camera[] cameras) {
+        foreach (Camera camera in cameras) {
+            camera.GetComponent<CC_CAMERASTEREO>().UpdateScreenAspect(true);
+        }
     }
 
-    //Disables or enables center, left, or right cameras depending on if stereo is enabled.
-    public void updateCameraStereo(Camera[] cameras, bool enableStereo)
-    {
-        if (enableStereo)
-        {
-            foreach (Camera camera in cameras)
-            {
-                camera.GetComponent<CC_CAMERASTEREO>().disableCenterCamera();
+    /// <summary>
+    /// Disables or enables center, left, or right cameras depending on if stereo is enabled.
+    /// </summary>
+    /// <param name="cameras">Array of cameras.</param>
+    /// <param name="enableStereo">Disable or enable stereo.</param>
+    public void UpdateCameraStereo(Camera[] cameras, bool enableStereo) {
+        if (enableStereo) {
+            foreach (Camera camera in cameras) {
+                camera.GetComponent<CC_CAMERASTEREO>().DisableCenterCamera();
             }
-        }
-        else
-        {
-            foreach (Camera camera in cameras)
-            {
-                camera.GetComponent<CC_CAMERASTEREO>().enableCenterCamera();
+        } else {
+            foreach (Camera camera in cameras) {
+                camera.GetComponent<CC_CAMERASTEREO>().EnableCenterCamera();
             }
         }
     }
 
-    //Repeated code from CC_CAMERAOFFSET
-    private void PerspectiveOffCenter(Camera camera, GameObject projectionScreen)
-    {
+    /// <summary>
+    /// Offsets the perspective from center for a camera. Code repeated from CC_CAMERAOFFSET.
+    /// </summary>
+    /// <param name="camera">Camera to be offset.</param>
+    /// <param name="projectionScreen">GameObject representing the projection screen.</param>
+    private void perspectiveOffCenter(Camera camera, GameObject projectionScreen) {
 
         //Lower left corner of projection screen in world coordinates
         Vector3 PSLL = projectionScreen.transform.TransformPoint(new Vector3(-0.5f, -0.5f, 0.0f));
@@ -205,6 +206,4 @@ public class CC_CAMERARIG
         camera.projectionMatrix = p;
         camera.worldToCameraMatrix = rm * tm;
     }
-
 }
-

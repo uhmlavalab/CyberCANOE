@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /* 
 This is an example script that allows the user to move around the scene.
 Forward movement is based off the orientation of the Right Wand.
 You point the right wand in the direction you want to move and pull the trigger.
 
-Right Wand Joystick - Pitch and yaw
-
 CyberCANOE Virtual Reality API for Unity3D
 (C) 2016 Ryan Theriot, Jason Leigh, Laboratory for Advanced Visualization & Applications, University of Hawaii at Manoa.
-Version: 1.13, May 17th, 2017.
+Version: 1.14, August 6th, 2019.
 */
 
 public class CCaux_Navigator : MonoBehaviour

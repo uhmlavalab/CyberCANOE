@@ -5981,7 +5981,12 @@ MonoBehaviour:
   navigationSpeed: 5
   navigationRotationSpeed: 1.25
   wandModel: 1
+  vive: 1
+  optitrack: 0
   simulatorActiveWand: 0
+  dpadType: 1
+  centerClickRange: 0.5
+  cameraForwardTilt: 0
   showScreen: 0
   applyGravity: 0
   kbcont: 1
